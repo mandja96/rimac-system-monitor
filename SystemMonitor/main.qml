@@ -1,8 +1,11 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
+import QtQuick.Layouts 1.3
 
 Window {
+
+    id: root
 
     width: 640
     height: 480
@@ -16,26 +19,60 @@ Window {
 //        onClicked: threadsInfo.setNumberOfThreads(10)
 //    }
 
-    Text {
-        id: numberOfThreads
-        anchors {
-            top: parent.top
-            horizontalCenter: parent.horizontalCenter
-            topMargin: 20
+    ColumnLayout {
+        Text {
+            id: numberOfThreads
+            font.pixelSize: 24
+            text: threadsInfo.numberOfThreads
+            anchors.fill: parent
         }
-        font.pixelSize: 24
-        text: threadsInfo.numberOfThreads
-    }
 
-    Text {
-        id: numberOfProcesses
-        anchors {
-            top: parent.top
-            horizontalCenter: parent.horizontalCenter
-            topMargin: 100
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 2
+            color: "black"
         }
-        font.pixelSize: 24
-        text: processesInfo.numberOfProcesses
-    }
 
+        Text {
+            id: numberOfProcesses
+            font.pixelSize: 24
+            text: processesInfo.numberOfProcesses
+        }
+
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 100
+            color: "black"
+        }
+
+        Text {
+            id: availableMemory
+            font.pixelSize: 24
+            text: memoryInfo.availableMemory
+        }
+
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 2
+            color: "black"
+        }
+
+        Text {
+            id: usedMemory
+            font.pixelSize: 24
+            text: memoryInfo.usedMemory
+        }
+
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 2
+            color: "black"
+        }
+
+        Text {
+            id: totalMemory
+            font.pixelSize: 24
+            text: memoryInfo.totalMemory
+        }
+    }
 }

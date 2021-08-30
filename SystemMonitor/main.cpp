@@ -7,6 +7,7 @@
 
 #include "infothread.h"
 #include "infoprocess.h"
+#include "infomemory.h"
 
 int main(int argc, char *argv[])
 {
@@ -21,6 +22,9 @@ int main(int argc, char *argv[])
 
     InfoProcess processInfo;
     processInfo.start();
+
+    InfoMemory memoryInfo;
+    memoryInfo.start();
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
@@ -37,6 +41,7 @@ int main(int argc, char *argv[])
     QQmlContext *rootContext = engine.rootContext();
     rootContext->setContextProperty("threadsInfo", &threadInfo);
     rootContext->setContextProperty("processesInfo", &processInfo);
+    rootContext->setContextProperty("memoryInfo", &memoryInfo);
 
     engine.load(url);
     if (engine.rootObjects().isEmpty())
@@ -45,11 +50,16 @@ int main(int argc, char *argv[])
     app.exec();
 
     // AFTER APP IS CLOSED SHOULD FIX THREADS
+    // TODO: Try to do this with signal from QGuiApplication::aboutToQuit()
+    //       and slot in thread to quit() and wait() there.
     threadInfo.terminate();
     threadInfo.wait();
 
     processInfo.terminate();
     processInfo.wait();
+
+    memoryInfo.terminate();
+    memoryInfo.wait();
 
     return 0;
 }

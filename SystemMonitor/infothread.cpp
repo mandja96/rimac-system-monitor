@@ -35,7 +35,6 @@ void InfoThread::run(){
         auto exitTime = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
         QString  numberOfThreadsStr= _processFetchNumberOfThreads->readAllStandardOutput();
-        std::cout << "number of threads: " << numberOfThreadsStr.toStdString() << std::endl;
 
         _processDuration = static_cast<quint16>(exitTime - startTime);
 

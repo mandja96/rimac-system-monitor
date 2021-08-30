@@ -33,7 +33,6 @@ void InfoProcess::run()
         auto exitTime = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
         QString  numberOfProcessesStr = _processFetchNumberOfProcesses->readAllStandardOutput();
-        std::cout << "number of processes: " << numberOfProcessesStr.toStdString() << std::endl;
 
         _processDuration = static_cast<quint16>(exitTime - startTime);
 

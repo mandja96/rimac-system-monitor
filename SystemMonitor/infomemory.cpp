@@ -1,6 +1,6 @@
 #include "infomemory.h"
 
-#include<chrono>
+#include <chrono>
 #include<iostream>
 #include<sstream>
 
@@ -26,7 +26,7 @@ void InfoMemory::run()
     QString program = "/bin/sh";
     QStringList arguments;
     arguments << "-c"
-              << "free -k | head -n 2 | tail -n 1";
+              << "free -m | head -n 2 | tail -n 1";
 
     while(true) {
         _processFetchMemoryInfo->start(program, arguments, QIODevice::ReadOnly);
@@ -36,14 +36,13 @@ void InfoMemory::run()
         auto exitTime = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
         QString  numberOfProcessesStr = _processFetchMemoryInfo->readAllStandardOutput();
-        std::cout << "number of processes: " << numberOfProcessesStr.toStdString() << std::endl;
 
         _processDuration = static_cast<quint16>(exitTime - startTime);
 
         std::vector<std::string> available_used_total = extractValuesFromString(numberOfProcessesStr.toStdString());
 
         QString availableMemory = QString::fromStdString(available_used_total.at(6));
-        QString usedMemory = QString::fromStdString(available_used_total.at(2));
+        //QString usedMemory = QString::fromStdString(available_used_total.at(2));
         QString totalMemory = QString::fromStdString(available_used_total.at(1));
 
         updateMemoryInfo(static_cast<quint64>(availableMemory.toULongLong()),
@@ -54,7 +53,6 @@ void InfoMemory::run()
     }
 
 }
-
 
 quint64 InfoMemory::availableMemory()
 {
@@ -86,22 +84,6 @@ void InfoMemory::setTotalMemory(quint64 newTotalMemory)
     _totalMemory = newTotalMemory;
 }
 
-std::vector<std::string> InfoMemory::extractValuesFromString(std::string freeCommandOutput)
-{
-    std::cout << freeCommandOutput << std::endl;
-
-    std::vector<std::string> result;
-
-    std::istringstream iss(freeCommandOutput);
-    for(std::string s; iss >> s; )
-        result.push_back(s);
-
-//    for (auto a: result)
-//        std::cout << a << std::endl;
-
-    return result;
-}
-
 void InfoMemory::updateMemoryInfo(quint64 newAvailableMemory,
                                   quint64 newUsedMemory,
                                   quint64 newTotalMemory)
@@ -111,4 +93,15 @@ void InfoMemory::updateMemoryInfo(quint64 newAvailableMemory,
     setTotalMemory(newTotalMemory);
 
     emit memoryChanged();
+}
+
+std::vector<std::string> InfoMemory::extractValuesFromString(std::string freeCommandOutput)
+{
+    std::vector<std::string> result;
+
+    std::istringstream iss(freeCommandOutput);
+    for(std::string s; iss >> s; )
+        result.push_back(s);
+
+    return result;
 }

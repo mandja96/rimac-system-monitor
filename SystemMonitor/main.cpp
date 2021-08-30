@@ -8,6 +8,7 @@
 #include "infothread.h"
 #include "infoprocess.h"
 #include "infomemory.h"
+#include "infodisk.h"
 
 int main(int argc, char *argv[])
 {
@@ -25,6 +26,9 @@ int main(int argc, char *argv[])
 
     InfoMemory memoryInfo;
     memoryInfo.start();
+
+    InfoDisk diskInfo;
+    diskInfo.start();
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
@@ -60,6 +64,9 @@ int main(int argc, char *argv[])
 
     memoryInfo.terminate();
     memoryInfo.wait();
+
+    diskInfo.terminate();
+    diskInfo.wait();
 
     return 0;
 }

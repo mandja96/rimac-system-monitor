@@ -5,8 +5,8 @@
 #include <QThread>
 #include <QProcess>
 
-#include<vector>
-#include<string>
+#include <vector>
+#include <string>
 
 class InfoMemory : public QThread
 {

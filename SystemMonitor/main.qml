@@ -22,9 +22,8 @@ Window {
     ColumnLayout {
         Text {
             id: numberOfThreads
-            font.pixelSize: 24
-            text: threadsInfo.numberOfThreads
-            anchors.fill: parent
+            font.pixelSize: 18
+            text: "# threads: " + threadsInfo.numberOfThreads
         }
 
         Rectangle {
@@ -35,8 +34,8 @@ Window {
 
         Text {
             id: numberOfProcesses
-            font.pixelSize: 24
-            text: processesInfo.numberOfProcesses
+            font.pixelSize: 18
+            text: "# processes: " + processesInfo.numberOfProcesses
         }
 
         Rectangle {
@@ -47,8 +46,8 @@ Window {
 
         Text {
             id: availableMemory
-            font.pixelSize: 24
-            text: memoryInfo.availableMemory
+            font.pixelSize: 18
+            text: "Available Memory: " + memoryInfo.availableMemory
         }
 
         Rectangle {
@@ -59,8 +58,8 @@ Window {
 
         Text {
             id: usedMemory
-            font.pixelSize: 24
-            text: memoryInfo.usedMemory
+            font.pixelSize: 18
+            text: "Used Memory: " + memoryInfo.usedMemory
         }
 
         Rectangle {
@@ -71,8 +70,8 @@ Window {
 
         Text {
             id: totalMemory
-            font.pixelSize: 24
-            text: memoryInfo.totalMemory
+            font.pixelSize: 18
+            text: "Total Memory: " + memoryInfo.totalMemory
         }
     }
 }

@@ -6,3 +6,4 @@ This is a QtQuick application for system information monitoring, on a Linux Ubun
 - CPU load: 
     * https://rosettacode.org/wiki/Linux_CPU_utilization#UNIX_Shell
     * https://supportcenter.checkpoint.com/supportcenter/portal?eventSubmit_doGoviewsolutiondetails=&solutionid=sk65143
+    * https://www.kgoettler.com/post/proc-stat/

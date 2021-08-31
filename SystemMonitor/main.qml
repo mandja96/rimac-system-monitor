@@ -69,6 +69,18 @@ Window {
         }
 
         Text {
+            id: cacheMemmory
+            font.pixelSize: 18
+            text: "Cache Memory: " + memoryInfo.cacheMemory
+        }
+
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 2
+            color: "black"
+        }
+
+        Text {
             id: totalMemory
             font.pixelSize: 18
             text: "Total Memory: " + memoryInfo.totalMemory

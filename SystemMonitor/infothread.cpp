@@ -12,7 +12,8 @@ InfoThread::InfoThread()
 
 InfoThread::~InfoThread()
 {
-    delete _processFetchNumberOfThreads;
+    if (_processFetchNumberOfThreads != nullptr)
+        delete _processFetchNumberOfThreads;
 }
 
 //andja.start("/bin/sh",

@@ -21,6 +21,7 @@ public:
     std::vector<std::vector<std::string>> otherDisks();
 
 signals:
+    void diskInfoChanged();
 
 public slots:
 

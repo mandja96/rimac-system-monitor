@@ -13,7 +13,8 @@ InfoDisk::InfoDisk()
 
 InfoDisk::~InfoDisk()
 {
-    delete _processFetchDiskInfo;
+    if (_processFetchDiskInfo != nullptr)
+        delete _processFetchDiskInfo;
 }
 
 // solid drives:
@@ -80,7 +81,6 @@ std::vector<std::vector<std::string>> InfoDisk::extractValuesFromOutput(std::str
     std::vector<std::string> disk;
 
     while (std::getline(issAll, line)) {
-
         disk.clear();
         std::istringstream issOne(line);
 
@@ -112,4 +112,6 @@ void InfoDisk::setDisks(std::vector<std::vector<std::string>> newSolidDisks,
     _solidDisks = newSolidDisks;
     _floppyDisks = newFloppyDisks;
     _otherDisks = newOtherDisks;
+
+    emit diskInfoChanged();
 }

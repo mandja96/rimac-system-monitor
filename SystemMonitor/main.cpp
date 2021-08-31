@@ -9,6 +9,7 @@
 #include "infoprocess.h"
 #include "infomemory.h"
 #include "infodisk.h"
+#include "infocpu.h"
 
 int main(int argc, char *argv[])
 {
@@ -17,6 +18,7 @@ int main(int argc, char *argv[])
 #endif
 
     QGuiApplication app(argc, argv);
+    app.setApplicationName("System Monitor");
 
     InfoThread threadInfo;
     threadInfo.start();
@@ -29,6 +31,9 @@ int main(int argc, char *argv[])
 
     InfoDisk diskInfo;
     diskInfo.start();
+
+    InfoCPU cpuInfo;
+    cpuInfo.start();
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
@@ -56,6 +61,8 @@ int main(int argc, char *argv[])
     // AFTER APP IS CLOSED SHOULD FIX THREADS
     // TODO: Try to do this with signal from QGuiApplication::aboutToQuit()
     //       and slot in thread to quit() and wait() there.
+
+    // NOT THE SMARTEST OPTION
     threadInfo.terminate();
     threadInfo.wait();
 
@@ -67,6 +74,9 @@ int main(int argc, char *argv[])
 
     diskInfo.terminate();
     diskInfo.wait();
+
+    cpuInfo.terminate();
+    cpuInfo.wait();
 
     return 0;
 }

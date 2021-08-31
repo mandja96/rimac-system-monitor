@@ -11,7 +11,8 @@ InfoProcess::InfoProcess()
 
 InfoProcess::~InfoProcess()
 {
-    delete _processFetchNumberOfProcesses;
+    if (_processFetchNumberOfProcesses != nullptr)
+        delete _processFetchNumberOfProcesses;
 }
 
 //andja.start("/bin/sh",

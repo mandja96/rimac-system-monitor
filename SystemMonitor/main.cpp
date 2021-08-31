@@ -51,6 +51,8 @@ int main(int argc, char *argv[])
     rootContext->setContextProperty("threadsInfo", &threadInfo);
     rootContext->setContextProperty("processesInfo", &processInfo);
     rootContext->setContextProperty("memoryInfo", &memoryInfo);
+    rootContext->setContextProperty("diskInfo", &diskInfo);
+    rootContext->setContextProperty("cpuInfo", &cpuInfo);
 
     engine.load(url);
     if (engine.rootObjects().isEmpty())

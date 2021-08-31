@@ -26,6 +26,11 @@ std::vector<std::vector<std::string> > InfoCPU::cpus()
     return _cpus;
 }
 
+std::map<std::string, float> InfoCPU::cpusLoad()
+{
+    return _cpusLoad;
+}
+
 // fetch cpu info:
 // cat /proc/stat  | grep 'cpu'
 void InfoCPU::run()
@@ -60,13 +65,14 @@ void InfoCPU::run()
             _cpusLoad.insert({cpu.at(0), cpuLoad});
         }
 
+        fillCpusLoadQt();
+
 //        std::cout << std::endl;
-//        for (const auto &b: _cpusLoad)
-//            std::cout << b.first << " UUU : " << b.second << std::endl;
+//        for (const auto &b: _cpusLoadQt.keys())
+//           qDebug() << b << ", " << _cpusLoadQt[b];
 
-        QThread::sleep(1);
+        QThread::sleep(2);
     }
-
 }
 
 std::vector<std::vector<std::string> > InfoCPU::extractValuesFromOutput(std::string cpuInfo)
@@ -136,6 +142,26 @@ float InfoCPU::calculateCpuLoad(std::vector<std::string> cpu)
         }
     }
 
-    emit cpusChanged();
     return cpuLoad;
+}
+
+void InfoCPU::fillCpusLoadQt()
+{
+    _cpusLoadQt.clear();
+
+    for (const auto &element: _cpusLoad) {
+        QString key = QString::fromStdString(element.first);
+        QString value = QString::fromStdString(roundFloatStr(element.second));
+
+        _cpusLoadQt.insert(key, value);
+    }
+    emit cpusChanged();
+}
+
+std::string InfoCPU::roundFloatStr(float var)
+{
+    std::ostringstream out;
+    out.precision(2);
+    out << std::fixed << var;
+    return out.str();
 }

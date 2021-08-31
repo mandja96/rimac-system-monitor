@@ -20,6 +20,7 @@ signals:
     void numberOfThreadsChanged();
 
 public slots:
+    // functions declared here can be called from QML
 
 private:
     quint64 _numberOfThreads;

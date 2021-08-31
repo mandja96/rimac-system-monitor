@@ -10,14 +10,22 @@ Window {
     width: 640
     height: 480
     visible: true
-    title: qsTr("System Monitor")
+    title: qsTr("System Monitor: by Anđa")
 
-//    Button {
-//        id: myButton
-//        anchors.centerIn: parent
-//        text: "Click me!"
-//        onClicked: threadsInfo.setNumberOfThreads(10)
-//    }
+    function testFunction(cpuInfo) {
+        console.log("AAAA")
+
+        for (var prop in cpuInfo) {
+            console.log("Object item:", prop, "=", cpuInfo[prop])
+        }
+    }
+
+    Button {
+        id: myButton
+        anchors.centerIn: parent
+        text: "Click me!"
+        onClicked: testFunction(cpuInfo.getCpuLoad());
+    }
 
     ColumnLayout {
         Text {
@@ -84,6 +92,11 @@ Window {
             id: totalMemory
             font.pixelSize: 18
             text: "Total Memory: " + memoryInfo.totalMemory
+        }
+    }
+
+    Frame {
+        ListView {
         }
     }
 }

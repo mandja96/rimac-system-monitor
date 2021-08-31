@@ -3,7 +3,10 @@
 
 #include <QObject>
 #include <QThread>
+#include <QMap>
 #include <QProcess>
+#include <QFloat16>
+#include <QVariant>
 
 #include <vector>
 #include <string>
@@ -11,11 +14,22 @@
 class InfoCPU : public QThread
 {
     Q_OBJECT
+
 public:
     InfoCPU();
     ~InfoCPU();
 
+    Q_INVOKABLE QVariantMap getCpuLoad() {
+        QVariantMap cpus;
+
+        foreach (QString key, _cpusLoadQt.keys()) {
+            cpus[key] = QVariant::fromValue(_cpusLoadQt[key]);
+        }
+        return cpus;
+    }
+
     std::vector<std::vector<std::string>> cpus();
+    std::map<std::string, float> cpusLoad();
 
 signals:
     void cpusChanged();
@@ -29,12 +43,17 @@ private:
     std::map<std::string, float> _prevTotal;
     std::map<std::string, float> _prevIdle;
 
+    QMap<QString, QString> _cpusLoadQt;
+
     QProcess* _processFetchCpusInfo;
 
     quint16 _processDuration;
 
     std::vector<std::vector<std::string>> extractValuesFromOutput(std::string);
     float calculateCpuLoad(std::vector<std::string>);
+    void fillCpusLoadQt();
+
+    std::string roundFloatStr(float);
 
 private slots:
     void setCpus(std::vector<std::vector<std::string>>);

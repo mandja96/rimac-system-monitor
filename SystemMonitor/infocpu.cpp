@@ -71,7 +71,7 @@ void InfoCPU::run()
 //        for (const auto &b: _cpusLoadQt.keys())
 //           qDebug() << b << ", " << _cpusLoadQt[b];
 
-        QThread::sleep(2);
+        QThread::sleep(1);
     }
 }
 

@@ -52,7 +52,7 @@ void InfoMemory::run()
                          static_cast<quint64>(totalMemory.toULongLong()),
                          static_cast<quint64>(cacheMemory.toULongLong()));
 
-        QThread::sleep(2);
+        QThread::sleep(1);
     }
 }
 

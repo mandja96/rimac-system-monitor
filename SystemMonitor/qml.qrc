@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>other.qml</file>
+        <file>diskOther.qml</file>
     </qresource>
 </RCC>

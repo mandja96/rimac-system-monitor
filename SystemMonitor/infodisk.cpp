@@ -2,11 +2,13 @@
 
 #include <iostream>
 #include <sstream>
+#include <QVector>
 
 InfoDisk::InfoDisk()
     : _solidDisks(),
       _floppyDisks(),
-      _otherDisks()
+      _otherDisks(),
+      _solidDisksVariantMap()
 {
 
 }
@@ -15,6 +17,11 @@ InfoDisk::~InfoDisk()
 {
     if (_processFetchDiskInfo != nullptr)
         delete _processFetchDiskInfo;
+}
+
+QVariantMap InfoDisk::solidDisksVariantMap()
+{
+    return _solidDisksVariantMap;
 }
 
 // solid drives:
@@ -113,5 +120,22 @@ void InfoDisk::setDisks(std::vector<std::vector<std::string>> newSolidDisks,
     _floppyDisks = newFloppyDisks;
     _otherDisks = newOtherDisks;
 
+    _solidDisksVariantMap.clear();
+    for (auto sd: _solidDisks) {
+        QString key = QString::fromStdString(sd.at(0));
+        QVector<QString> values;
+
+        sd.erase(sd.begin());
+        for (auto vec: sd) {
+            values.append(QString::fromStdString(vec));
+        }
+        _solidDisksVariantMap[key] = QVariant::fromValue(values);
+    }
+
     emit diskInfoChanged();
+}
+
+void InfoDisk::setSolidDisksVariantMap(QVariantMap newSolidDiskVariantMap)
+{
+    _solidDisksVariantMap = newSolidDiskVariantMap;
 }

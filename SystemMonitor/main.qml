@@ -12,17 +12,53 @@ Window {
     visible: true
     title: qsTr("System Monitor: by Anđa")
     Material.accent: Material.DeepOrange
-    color: "#ffffff"
+    color: "#d3d3d3"
 
-    function testFunction(cpuInfo) {
+    function testFunction(diskInfo) {
         console.log("AAAA")
 
-        for (var prop in cpuInfo) {
-            console.log("Object item:", prop, "=", cpuInfo[prop])
+        for (var prop in diskInfo.solidDisksVariantMap) {
+            //console.log("prop = ", prop)
+            console.log("Object item:", prop, "=", diskInfo.solidDisksVariantMap[prop])
         }
     }
 
     property var recentCPUTextLabels: [];
+    property var recentDiskTextLabels: [];
+
+    function createDiskObjects() {
+        var i = 0
+        var info = diskInfo.solidDisksVariantMap
+
+        if (recentDiskTextLabels.length != 0) {
+            for (var p = recentDiskTextLabels.length; p > 0; p--) {
+                console.log("Broj dece: ", recentDiskTextLabels[p-1].children.length)
+                recentDiskTextLabels[p-1].destroy(0);
+            }
+         }
+        recentDiskTextLabels.length = 0;
+        recentDiskTextLabels = [];
+
+        var component = Qt.createComponent("diskOther.qml");
+        if (component.status === Component.Ready) {
+            for (var disk in info) {
+                //console.log("Object item:", cpu, "=", info[cpu])
+                var disks = component.createObject(diskLabel,
+                                                {y: i*50, key: disk, values: info[disk]});
+
+                if (disks === null) {
+                    // Error Handling
+                    console.log("Error creating object DISKS");
+                }
+
+                recentDiskTextLabels.push(disks);
+                i = i+1
+            }
+        } else {
+            console.log("diskOther.qml not created")
+         }
+
+    }
 
     function createCPUsObjects() {
         var i = 0
@@ -31,7 +67,7 @@ Window {
         if (recentCPUTextLabels.length != 0) {
             for (var p = recentCPUTextLabels.length; p > 0; p--) {
                 console.log("Broj dece: ", recentCPUTextLabels[p-1].children.length)
-                recentCPUTextLabels[p-1].destroy();
+                recentCPUTextLabels[p-1].destroy(0);
             }
         }
         recentCPUTextLabels.length = 0;
@@ -42,7 +78,7 @@ Window {
             for (var cpu in info) {
                 //console.log("Object item:", cpu, "=", info[cpu])
                 var cpus = component.createObject(cpuLabel,
-                                                {y: i*20, key: cpu, value: info[cpu]});
+                                                {y: i*30, key: cpu, value: info[cpu]});
 
                 if (cpus === null) {
                     // Error Handling
@@ -85,6 +121,7 @@ Window {
 
             ColumnLayout {
                 id: cpuLayout
+
                 anchors {
                     top: parent.top
                     left: parent.left
@@ -104,14 +141,6 @@ Window {
                         createCPUsObjects()
                     }
                 }
-
-//                Button {
-//                    id: cpuLabel
-//                    onClicked: {
-//                        createCPUsObjects()
-//                    }
-//                }
-
             }
         }
         Item {
@@ -154,6 +183,7 @@ Window {
                 Text {
                     id: availableMemory
                     font.pixelSize: 18
+                    color: "green"
                     text: "Available Memory: " + memoryInfo.availableMemory + " [MiB]"
                 }
 
@@ -166,18 +196,20 @@ Window {
                 Text {
                     id: usedMemory
                     font.pixelSize: 18
+                    color: "red"
                     text: "Used Memory: " + memoryInfo.usedMemory + " [MiB]"
                 }
 
                 Rectangle {
                     Layout.fillWidth: true
                     Layout.preferredHeight: 50
-                    color: "white"
+                    color: "#d3d3d3"
                 }
 
                 Text {
                     id: totalMemory
                     font.pixelSize: 18
+                    color: "blue"
                     text: "Total Memory: " + memoryInfo.totalMemory + " [MiB]"
 
                 }
@@ -189,7 +221,7 @@ Window {
                 }
 
                 Text {
-                    id: cacheMemmory
+                    id: cacheMemory
                     font.pixelSize: 18
                     text: "Cache Memory: " + memoryInfo.cacheMemory + " [MiB]"
                 }
@@ -197,93 +229,24 @@ Window {
         }
         Item {
             id: diskTab
+
+            ColumnLayout {
+                id: diskLayout
+
+                anchors {
+                    top: parent.top
+                    left: parent.left
+                    topMargin: 100
+                    leftMargin: 100
+                }
+
+                Text {
+                    id: diskLabel
+                    text: {
+                        createDiskObjects()
+                    }
+                }
+            }
         }
     }
-
-//    ColumnLayout {
-//        anchors {
-//            top: parent.top
-//            topMargin: 100
-//        }
-
-//        Text {
-//            id: numberOfThreads
-//            font.pixelSize: 18
-//            text: "# threads: " + threadsInfo.numberOfThreads
-//        }
-
-//        Rectangle {
-//            Layout.fillWidth: true
-//            Layout.preferredHeight: 2
-//            color: "black"
-//        }
-
-//        Text {
-//            id: numberOfProcesses
-//            font.pixelSize: 18
-//            text: "# processes: " + processesInfo.numberOfProcesses
-//        }
-
-//        Rectangle {
-//            Layout.fillWidth: true
-//            Layout.preferredHeight: 100
-//            color: "black"
-//        }
-
-//        Text {
-//            id: availableMemory
-//            font.pixelSize: 18
-//            text: "Available Memory: " + memoryInfo.availableMemory
-//        }
-
-//        Rectangle {
-//            Layout.fillWidth: true
-//            Layout.preferredHeight: 2
-//            color: "black"
-//        }
-
-//        Text {
-//            id: usedMemory
-//            font.pixelSize: 18
-//            text: "Used Memory: " + memoryInfo.usedMemory
-//        }
-
-//        Rectangle {
-//            Layout.fillWidth: true
-//            Layout.preferredHeight: 2
-//            color: "black"
-//        }
-
-//        Text {
-//            id: cacheMemmory
-//            font.pixelSize: 18
-//            text: "Cache Memory: " + memoryInfo.cacheMemory
-//        }
-
-//        Rectangle {
-//            Layout.fillWidth: true
-//            Layout.preferredHeight: 2
-//            color: "black"
-//        }
-
-//        Text {
-//            id: totalMemory
-//            font.pixelSize: 18
-//            text: "Total Memory: " + memoryInfo.totalMemory
-
-//        }
-//    }
-//    ListView {
-//        id: cpu
-//        anchors {
-//            top: parent.top
-//            topMargin: 100
-//            horizontalCenter: parent.horizontalCenter
-//        }
-//        property var cpus : cpuInfo.getCpuLoad()
-
-//        Text {
-//            text: "Andja :("
-//        }
-//    }
 }

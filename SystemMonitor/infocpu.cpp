@@ -4,8 +4,6 @@
 #include <iostream>
 #include <sstream>
 
-#include <QDebug>
-
 InfoCPU::InfoCPU()
     : _cpus(),
       _cpusLoad(),
@@ -103,6 +101,10 @@ std::vector<std::vector<std::string> > InfoCPU::extractValuesFromOutput(std::str
 
 void InfoCPU::setCpus(std::vector<std::vector<std::string>> newCpus)
 {
+    if (_cpus == newCpus) {
+        return;
+    }
+
     for (auto cpu: _cpus)
         cpu.clear();
     _cpus.clear();
@@ -112,11 +114,16 @@ void InfoCPU::setCpus(std::vector<std::vector<std::string>> newCpus)
 
 void InfoCPU::setCpuMap(QVariantMap newCpuMap)
 {
+    if (_cpuMap == newCpuMap) {
+        return;
+    }
+
     for (auto cpu: qAsConst(_cpuMap))
         cpu.clear();
     _cpuMap.clear();
-
     _cpuMap = newCpuMap;
+
+    emit cpusChanged();
 }
 
 float InfoCPU::calculateCpuLoad(std::vector<std::string> cpu)
@@ -129,8 +136,9 @@ float InfoCPU::calculateCpuLoad(std::vector<std::string> cpu)
         key = cpu.at(0);
         cpu.erase(cpu.begin());
     }
-    else
-        qDebug() << "Treba da pocne sa imenom procesora: cpu[1-9]*!";
+    else {
+        //qDebug() << "Treba da pocne sa imenom procesora: cpu[1-9]*!";
+    }
 
     quint64 totalTime = 0;
     quint64 idleTime = std::stoull(cpu.at(3));

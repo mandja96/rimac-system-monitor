@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>other.qml</file>
-        <file>diskOther.qml</file>
+        <file>cpus.qml</file>
+        <file>disks.qml</file>
     </qresource>
 </RCC>

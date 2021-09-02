@@ -4,8 +4,6 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.3
 
-//import QtQuick.Controls 1.1
-
 Window {
 
     id: root
@@ -35,12 +33,11 @@ Window {
         if (recentDiskTextLabels.length != 0) {
             for (var p = recentDiskTextLabels.length; p > 0; p--) {
                 recentDiskTextLabels[p-1].destroy(0);
+                recentDiskTextLabels.pop();
             }
          }
-        recentDiskTextLabels.length = 0;
-        recentDiskTextLabels = [];
 
-        var component = Qt.createComponent("diskOther.qml");
+        var component = Qt.createComponent("disks.qml");
         if (component.status === Component.Ready) {
             for (var disk in info) {
                 //console.log("Object item:", cpu, "=", info[cpu])
@@ -54,9 +51,13 @@ Window {
                 recentDiskTextLabels.push(disks);
                 i = i+1
             }
-        } else {
-            console.log("diskOther.qml not created")
-         }
+        }
+        else {
+            console.log("disks.qml not created")
+        }
+
+        // because text is expecting QString
+        return ""
     }
 
     function createCPUsObjects() {
@@ -65,18 +66,17 @@ Window {
 
         if (recentCPUTextLabels.length != 0) {
             for (var p = recentCPUTextLabels.length; p > 0; p--) {
-                recentCPUTextLabels[p-1].destroy(0);
+                recentCPUTextLabels[p-1].destroy();
+                recentCPUTextLabels.pop();
             }
         }
-        recentCPUTextLabels.length = 0;
-        recentCPUTextLabels = [];
 
-        var component = Qt.createComponent("other.qml");
+        var component = Qt.createComponent("cpus.qml");
         if (component.status === Component.Ready) {
             for (var cpu in info) {
                 //console.log("Object item:", cpu, "=", info[cpu])
-                var cpus = component.createObject(cpuLayout,
-                                                {y: i*30, key: cpu, value: info[cpu]});
+                var cpus = component.createObject(cpuLabel,
+                                                {y: i*30, key: cpu, val: info[cpu]});
 
                 if (cpus === null) {
                     // Error Handling
@@ -87,8 +87,10 @@ Window {
                 i = i+1
             }
         } else {
-            console.log("other.qml not created")
+            console.log("cpus.qml not created")
         }
+
+        return ""
     }
 
     TabBar {
@@ -134,12 +136,11 @@ Window {
 
                 Text {
                     id: cpuLabel
+
                     text: {
                         createCPUsObjects()
                     }
                 }
-
-                //Component.onCompleted: createCPUsObjects();
             }
         }
         Item {

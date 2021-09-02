@@ -1,7 +1,6 @@
 #include "infothread.h"
 
 #include <chrono>
-#include <QtDebug>
 #include <iostream>
 
 InfoThread::InfoThread()

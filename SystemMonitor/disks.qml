@@ -1,7 +1,7 @@
 import QtQuick 2.0
 
 Item {
-    id: diskOtherItem
+    id: diskItem
 
     property var key;
     property var values;

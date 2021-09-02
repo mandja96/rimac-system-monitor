@@ -32,7 +32,6 @@ Window {
 
         if (recentDiskTextLabels.length != 0) {
             for (var p = recentDiskTextLabels.length; p > 0; p--) {
-                console.log("Broj dece: ", recentDiskTextLabels[p-1].children.length)
                 recentDiskTextLabels[p-1].destroy(0);
             }
          }
@@ -66,7 +65,6 @@ Window {
 
         if (recentCPUTextLabels.length != 0) {
             for (var p = recentCPUTextLabels.length; p > 0; p--) {
-                console.log("Broj dece: ", recentCPUTextLabels[p-1].children.length)
                 recentCPUTextLabels[p-1].destroy(0);
             }
         }

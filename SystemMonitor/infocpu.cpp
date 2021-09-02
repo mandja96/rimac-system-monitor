@@ -31,6 +31,11 @@ std::map<std::string, float> InfoCPU::cpusLoad()
     return _cpusLoad;
 }
 
+QVariantMap InfoCPU::cpuMap()
+{
+    return _cpuMap;
+}
+
 // fetch cpu info:
 // cat /proc/stat  | grep 'cpu'
 void InfoCPU::run()
@@ -105,6 +110,15 @@ void InfoCPU::setCpus(std::vector<std::vector<std::string>> newCpus)
     _cpus = newCpus;
 }
 
+void InfoCPU::setCpuMap(QVariantMap newCpuMap)
+{
+    for (auto cpu: qAsConst(_cpuMap))
+        cpu.clear();
+    _cpuMap.clear();
+
+    _cpuMap = newCpuMap;
+}
+
 float InfoCPU::calculateCpuLoad(std::vector<std::string> cpu)
 {
     float cpuLoad = 0.0;
@@ -155,6 +169,11 @@ void InfoCPU::fillCpusLoadQt()
 
         _cpusLoadQt.insert(key, value);
     }
+
+    foreach (QString key, _cpusLoadQt.keys()) {
+        _cpuMap[key] = QVariant::fromValue(_cpusLoadQt[key]);
+    }
+
     emit cpusChanged();
 }
 

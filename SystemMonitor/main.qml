@@ -2,15 +2,17 @@ import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
+import QtQuick.Controls.Material 2.3
 
 Window {
 
     id: root
-
     width: 640
     height: 480
     visible: true
     title: qsTr("System Monitor: by Anđa")
+    Material.accent: Material.DeepOrange
+    color: "#ffffff"
 
     function testFunction(cpuInfo) {
         console.log("AAAA")
@@ -20,21 +22,45 @@ Window {
         }
     }
 
-    function createCPUsObjects() {
-        var component = Qt.createComponent("other.qml");
-        var cpus = component.createObject(cpuTab,
-                                        {x: 100, y: 100, cpusInfo: "BLAH"});
+    property var recentCPUTextLabels: [];
 
-        if (cpus === null) {
-            // Error Handling
-            console.log("Error creating object CPUs");
+    function createCPUsObjects() {
+        var i = 0
+        var info = cpuInfo.cpuMap;
+
+        if (recentCPUTextLabels.length != 0) {
+            for (var p = recentCPUTextLabels.length; p > 0; p--) {
+                console.log("Broj dece: ", recentCPUTextLabels[p-1].children.length)
+                recentCPUTextLabels[p-1].destroy();
+            }
         }
+        recentCPUTextLabels.length = 0;
+        recentCPUTextLabels = [];
+
+        var component = Qt.createComponent("other.qml");
+        if (component.status === Component.Ready) {
+            for (var cpu in info) {
+                //console.log("Object item:", cpu, "=", info[cpu])
+                var cpus = component.createObject(cpuLabel,
+                                                {y: i*20, key: cpu, value: info[cpu]});
+
+                if (cpus === null) {
+                    // Error Handling
+                    console.log("Error creating object CPUs");
+                }
+
+                recentCPUTextLabels.push(cpus);
+                i = i+1
+            }
+        } else {
+            console.log("other.qml not created")
+        }
+
     }
 
     TabBar {
         id: bar
         width: parent.width
-        position: "Footer"
 
         TabButton {
             text: qsTr("CPUs")
@@ -53,20 +79,39 @@ Window {
     StackLayout {
         width: parent.width
         currentIndex: bar.currentIndex
+
         Item {
             id: cpuTab
 
             ColumnLayout {
+                id: cpuLayout
                 anchors {
                     top: parent.top
+                    left: parent.left
                     topMargin: 100
-                    horizontalCenter: parent.horizontalCenter
+                    leftMargin: 100
+                    //horizontalCenter: parent.horizontalCenter
                 }
-                Button {
-                    id: myButton
-                    text: "Click me!"
-                    onClicked: createCPUsObjects();
+//                Button {
+//                    id: myButton2
+//                    text: "Click me!"
+//                    onClicked: testFunction(cpuInfo.cpuMap)
+//                }
+
+                Text {
+                    id: cpuLabel
+                    text: {
+                        createCPUsObjects()
+                    }
                 }
+
+//                Button {
+//                    id: cpuLabel
+//                    onClicked: {
+//                        createCPUsObjects()
+//                    }
+//                }
+
             }
         }
         Item {

@@ -4,6 +4,8 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.3
 
+//import QtQuick.Controls 1.1
+
 Window {
 
     id: root
@@ -44,7 +46,6 @@ Window {
                 //console.log("Object item:", cpu, "=", info[cpu])
                 var disks = component.createObject(diskLabel,
                                                 {y: i*50, key: disk, values: info[disk]});
-
                 if (disks === null) {
                     // Error Handling
                     console.log("Error creating object DISKS");
@@ -56,7 +57,6 @@ Window {
         } else {
             console.log("diskOther.qml not created")
          }
-
     }
 
     function createCPUsObjects() {
@@ -75,7 +75,7 @@ Window {
         if (component.status === Component.Ready) {
             for (var cpu in info) {
                 //console.log("Object item:", cpu, "=", info[cpu])
-                var cpus = component.createObject(cpuLabel,
+                var cpus = component.createObject(cpuLayout,
                                                 {y: i*30, key: cpu, value: info[cpu]});
 
                 if (cpus === null) {
@@ -89,7 +89,6 @@ Window {
         } else {
             console.log("other.qml not created")
         }
-
     }
 
     TabBar {
@@ -139,6 +138,8 @@ Window {
                         createCPUsObjects()
                     }
                 }
+
+                //Component.onCompleted: createCPUsObjects();
             }
         }
         Item {
@@ -244,6 +245,8 @@ Window {
                         createDiskObjects()
                     }
                 }
+
+                //Component.onCompleted: createDiskObjects()
             }
         }
     }

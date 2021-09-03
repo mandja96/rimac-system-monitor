@@ -1,5 +1,7 @@
 # Qt System Monitor Application
 
+*Small demo video can be found in this repo, under name: [`demoVideo.mov`](./product/download.html)*
+
 ![mainWindow](./mainWindow.png)
 
 # What is this? :book:

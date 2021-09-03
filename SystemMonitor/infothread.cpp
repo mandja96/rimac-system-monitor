@@ -15,9 +15,9 @@ InfoThread::~InfoThread()
         delete _processFetchNumberOfThreads;
 }
 
-//andja.start("/bin/sh",
-//             QStringList() << "-c" << "ps -eo nlwp --no-headers |
-//             awk '{ num_threads += $1 } END { print num_threads }'");
+// COMMAND FOR FETCHING THREADS DATA:
+//ps -eo nlwp --no-headers
+//    | awk '{ num_threads += $1 } END { print num_threads }'
 void InfoThread::run(){
 
     _processFetchNumberOfThreads = new QProcess();

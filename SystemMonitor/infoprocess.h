@@ -5,6 +5,11 @@
 #include <QThread>
 #include <QProcess>
 
+/*
+ * This InfoProcess class is used for fetching system data
+ * about active processes. Number of processes is fetched.
+*/
+
 class InfoProcess : public QThread
 {
     Q_OBJECT
@@ -20,6 +25,7 @@ signals:
     void numberOfProcessesChanged();
 
 public slots:
+    // functions declared here can be called from QML
 
 private:
     quint64 _numbertOfProcesses;

@@ -5,6 +5,11 @@
 #include <QThread>
 #include <QProcess>
 
+/*
+ * This InfoThread class is used for fetching system data
+ * about active threads. Number of threads is fetched.
+*/
+
 class InfoThread : public QThread
 {
     Q_OBJECT

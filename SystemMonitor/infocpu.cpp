@@ -34,7 +34,7 @@ QVariantMap InfoCPU::cpuMap()
     return _cpuMap;
 }
 
-// fetch cpu info:
+// COMMANDS FOR CPU DATA:
 // cat /proc/stat  | grep 'cpu'
 void InfoCPU::run()
 {
@@ -69,11 +69,6 @@ void InfoCPU::run()
         }
 
         fillCpusLoadQt();
-
-//        std::cout << std::endl;
-//        for (const auto &b: _cpusLoadQt.keys())
-//           qDebug() << b << ", " << _cpusLoadQt[b];
-
         QThread::sleep(1);
     }
 }
@@ -149,7 +144,7 @@ float InfoCPU::calculateCpuLoad(std::vector<std::string> cpu)
 
     if (totalTime != 0) {
 
-        // NB: must check if it is not the first time and we have the previous values
+        // NOTE: must check if it this is not the first time and we have previous values
         if (( _prevIdle.find(key) != _prevIdle.end() ) & ( _prevTotal.find(key) != _prevTotal.end())) {
             cpuLoad = ( 1.0 - ( (idleTime - _prevIdle.find(key)->second)
                                 / (totalTime * 1.0 - _prevTotal.find(key)->second) ) ) * 100.0;
@@ -182,6 +177,7 @@ void InfoCPU::fillCpusLoadQt()
         _cpuMap[key] = QVariant::fromValue(_cpusLoadQt[key]);
     }
 
+    // Notify QML that C++ side changed the data.
     emit cpusChanged();
 }
 

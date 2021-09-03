@@ -10,6 +10,14 @@
 #include <string>
 #include <vector>
 
+/*
+ * This InfoDisk class is used for fetching system data
+ * about active disks (only solid drives are exposed to
+ * the GUI QML side right now, but also floppy and other disks can be
+ * in the future - IF NEEDED) and creating human readable results.
+ * Available, used and total disk space is shown.
+*/
+
 Q_DECLARE_METATYPE(std::vector<std::vector<std::string>>);
 
 class InfoDisk : public QThread
@@ -30,6 +38,7 @@ signals:
     void diskInfoChanged();
 
 public slots:
+    // functions declared here can be called from QML
 
 private:
     std::vector<std::vector<std::string>> _solidDisks;

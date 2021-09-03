@@ -24,6 +24,8 @@ QVariantMap InfoDisk::solidDisksVariantMap()
     return _solidDisksVariantMap;
 }
 
+// COMMANDS FOR FETCHING DISK DATA:
+
 // solid drives:
 // df -h --output=source,size,avail,used | egrep '/dev/sd'
 
@@ -126,7 +128,7 @@ void InfoDisk::setDisks(std::vector<std::vector<std::string>> newSolidDisks,
         QVector<QString> values;
 
         sd.erase(sd.begin());
-        for (auto vec: sd) {
+        for (const auto &vec: sd) {
             values.append(QString::fromStdString(vec));
         }
         _solidDisksVariantMap[key] = QVariant::fromValue(values);

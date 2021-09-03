@@ -11,6 +11,11 @@
 #include <vector>
 #include <string>
 
+/*
+ * This InfoCPU class is used for fetching system data
+ * about active processors (CPU) and creating human
+ * readable results through percentage.
+*/
 class InfoCPU : public QThread
 {
     Q_OBJECT
@@ -20,15 +25,6 @@ public:
     InfoCPU();
     ~InfoCPU();
 
-//    Q_INVOKABLE QVariantMap getCpuLoad() {
-//        QVariantMap cpus;
-
-//        foreach (QString key, _cpusLoadQt.keys()) {
-//            cpus[key] = QVariant::fromValue(_cpusLoadQt[key]);
-//        }
-//        return cpus;
-//    }
-
     std::vector<std::vector<std::string>> cpus();
     std::map<std::string, float> cpusLoad();
     QVariantMap cpuMap();
@@ -37,6 +33,7 @@ signals:
     void cpusChanged();
 
 public slots:
+    // functions declared here can be called from QML
 
 private:
     std::vector<std::vector<std::string>> _cpus;
@@ -45,11 +42,12 @@ private:
     std::map<std::string, float> _prevTotal;
     std::map<std::string, float> _prevIdle;
 
+    // NOTE: Workaround for wrapping std::vector<std::vector<std::string>>
+    // into something that QML can read and extract!
     QMap<QString, QString> _cpusLoadQt;
     QVariantMap _cpuMap;
 
     QProcess* _processFetchCpusInfo;
-
     quint16 _processDuration;
 
     std::vector<std::vector<std::string>> extractValuesFromOutput(std::string);

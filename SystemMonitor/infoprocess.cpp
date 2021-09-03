@@ -15,8 +15,8 @@ InfoProcess::~InfoProcess()
         delete _processFetchNumberOfProcesses;
 }
 
-//andja.start("/bin/sh",
-//             QStringList() << "-c" << "ps -e --no-headers | wc -l", QIODevice::ReadOnly");
+// COMMAND FOR FETCHING PROCESSES DATA:
+// ps -e --no-headers | wc -l
 void InfoProcess::run()
 {
     _processFetchNumberOfProcesses = new QProcess();

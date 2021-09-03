@@ -8,6 +8,12 @@
 #include <vector>
 #include <string>
 
+/*
+ * This InfoMemory class is used for fetching system data
+ * about active memory (RAM).
+ * Available, Used, Total and Cache memory are gathered.
+*/
+
 class InfoMemory : public QThread
 {
     Q_OBJECT
@@ -34,6 +40,7 @@ signals:
     void memoryChanged();
 
 public slots:
+    // functions declared here can be called from QML
 
 private:
     quint64 _availableMemory;

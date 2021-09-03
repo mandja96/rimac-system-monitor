@@ -11,17 +11,15 @@ Window {
     height: 480
     visible: true
     title: qsTr("System Monitor: by Anđa")
-    Material.accent: Material.DeepOrange
     color: "#d3d3d3"
 
-    function testFunction(diskInfo) {
-        console.log("AAAA")
-
-        for (var prop in diskInfo.solidDisksVariantMap) {
-            //console.log("prop = ", prop)
-            console.log("Object item:", prop, "=", diskInfo.solidDisksVariantMap[prop])
-        }
-    }
+//    function testFunction(diskInfo) {
+//        console.log("AAAA")
+//        for (var prop in diskInfo.solidDisksVariantMap) {
+//            console.log("prop = ", prop)
+//            console.log("Object item:", prop, "=", diskInfo.solidDisksVariantMap[prop])
+//        }
+//    }
 
     property var recentCPUTextLabels: [];
     property var recentDiskTextLabels: [];
@@ -30,6 +28,7 @@ Window {
         var i = 0
         var info = diskInfo.solidDisksVariantMap
 
+        // Destroying previously created children
         if (recentDiskTextLabels.length != 0) {
             for (var p = recentDiskTextLabels.length; p > 0; p--) {
                 recentDiskTextLabels[p-1].destroy(0);
@@ -37,10 +36,10 @@ Window {
             }
          }
 
+        // Template to show disk info
         var component = Qt.createComponent("disks.qml");
         if (component.status === Component.Ready) {
             for (var disk in info) {
-                //console.log("Object item:", cpu, "=", info[cpu])
                 var disks = component.createObject(diskLabel,
                                                 {y: i*50, key: disk, values: info[disk]});
                 if (disks === null) {
@@ -56,7 +55,7 @@ Window {
             console.log("disks.qml not created")
         }
 
-        // because text is expecting QString
+        // NOTE: Because text down there is expecting QString as return value
         return ""
     }
 
@@ -64,6 +63,7 @@ Window {
         var i = 0
         var info = cpuInfo.cpuMap;
 
+        // Destroying previously created children
         if (recentCPUTextLabels.length != 0) {
             for (var p = recentCPUTextLabels.length; p > 0; p--) {
                 recentCPUTextLabels[p-1].destroy();
@@ -71,10 +71,10 @@ Window {
             }
         }
 
+        // Template to show disk info
         var component = Qt.createComponent("cpus.qml");
         if (component.status === Component.Ready) {
             for (var cpu in info) {
-                //console.log("Object item:", cpu, "=", info[cpu])
                 var cpus = component.createObject(cpuLabel,
                                                 {y: i*30, key: cpu, val: info[cpu]});
 
@@ -90,6 +90,7 @@ Window {
             console.log("cpus.qml not created")
         }
 
+        // NOTE: Because text down there is expecting QString as return value
         return ""
     }
 
@@ -126,13 +127,7 @@ Window {
                     left: parent.left
                     topMargin: 100
                     leftMargin: 100
-                    //horizontalCenter: parent.horizontalCenter
                 }
-//                Button {
-//                    id: myButton2
-//                    text: "Click me!"
-//                    onClicked: testFunction(cpuInfo.cpuMap)
-//                }
 
                 Text {
                     id: cpuLabel
@@ -246,8 +241,6 @@ Window {
                         createDiskObjects()
                     }
                 }
-
-                //Component.onCompleted: createDiskObjects()
             }
         }
     }

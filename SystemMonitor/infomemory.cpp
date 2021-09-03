@@ -18,8 +18,8 @@ InfoMemory::~InfoMemory()
         delete _processFetchMemoryInfo;
 }
 
-//andja.start("/bin/sh",
-//             QStringList() << "-c" << "free -k | head -n 2 | tail -n 1");
+// COMMAND FOR FETCHING MEMORY DATA:
+// free -m | head -n 2 | tail -n 1
 void InfoMemory::run()
 {
     _processFetchMemoryInfo = new QProcess();

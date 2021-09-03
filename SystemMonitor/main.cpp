@@ -48,6 +48,8 @@ int main(int argc, char *argv[])
     }, Qt::QueuedConnection);
 
     QQmlContext *rootContext = engine.rootContext();
+
+    // Connecting C++ classes to QML side
     rootContext->setContextProperty("threadsInfo", &threadInfo);
     rootContext->setContextProperty("processesInfo", &processInfo);
     rootContext->setContextProperty("memoryInfo", &memoryInfo);
@@ -64,7 +66,8 @@ int main(int argc, char *argv[])
     // TODO: Try to do this with signal from QGuiApplication::aboutToQuit()
     //       and slot in thread to quit() and wait() there.
 
-    // NOT THE SMARTEST OPTION
+
+    // NOT THE SMARTEST OPTION, FOR NOW
     threadInfo.terminate();
     threadInfo.wait();
 

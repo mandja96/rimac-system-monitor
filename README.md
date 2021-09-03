@@ -1,6 +1,6 @@
 # Qt System Monitor Application
 
-![mainWindow]("mainWindow.png")
+![mainWindow](./mainWindow.png)
 
 # What is this? :book:
 

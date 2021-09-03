@@ -1,6 +1,6 @@
 # Qt System Monitor Application
 
-TODO --ADD HERE PHOTO OF THE MAIN WINDOW :smile:
+![mainWindow]("mainWindow.png")
 
 # What is this? :book:
 
